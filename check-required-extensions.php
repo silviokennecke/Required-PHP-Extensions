@@ -66,7 +66,7 @@ foreach ($files as $file) {
 			}
 		}
 	}
-	if (preg_match_all('/(new|extends)\W+\\?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\\)*(?<class>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/m', $content, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('/(new|extends)\W+\\\\?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\\\\)*(?<class>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/m', $content, $matches, PREG_SET_ORDER)) {
 		foreach($matches as $match) {
 			if (!key_exists($match['class'], $functions['classes'])) {
 				$functions['classes'][$match['class']] = [];
@@ -94,8 +94,6 @@ function getExtensionVars ($name) {
 	$extensions['classes'] = $ext->getClassNames();
 	if (!$extensions['classes']) {
 		$extensions['classes'] = [];
-	} else {
-		$extensions['classes'] = array_keys($extensions['classes']);
 	}
 	
 	$extensions['constants'] = $ext->getClassNames();
@@ -133,14 +131,14 @@ foreach ($functions['functions'] as $function => $files) {
 		}
 	}
 }
-foreach ($functions['classes'] as $function => $files) {
-	foreach($extensions as $name => $funcs['classes']) {
-		if (in_array($function, $funcs['classes'])) {
+foreach ($functions['classes'] as $class_name => $files) {
+	foreach($extensions as $name => $funcs) {
+		if (in_array($class_name, $funcs['classes'])) {
 			if (!array_key_exists($name, $required)) {
 				$required[$name] = ['functions' => [], 'classes' => []];
 			}
 			
-			$required[$name]['classes'][$function] = $files;
+			$required[$name]['classes'][$class_name] = $files;
 		}
 	}
 }
