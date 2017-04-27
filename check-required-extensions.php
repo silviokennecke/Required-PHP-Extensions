@@ -66,7 +66,7 @@ foreach ($files as $file) {
 			}
 		}
 	}
-	if (preg_match_all('/new\W+(?<class>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/m', $content, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('/(new|extends)\W+\\?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\\)*(?<class>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)/m', $content, $matches, PREG_SET_ORDER)) {
 		foreach($matches as $match) {
 			if (!key_exists($match['class'], $functions['classes'])) {
 				$functions['classes'][$match['class']] = [];
